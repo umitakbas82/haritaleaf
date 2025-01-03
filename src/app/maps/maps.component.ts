@@ -15,10 +15,43 @@ export class MapsComponent implements OnInit{
   ngOnInit(): void {
     this.initMap()
   }
+constructor(){
+  const iconRetinaUrl = 'assets/marker-icon-2x.png';
+  const iconUrl = 'assets/marker-icon.png';
+  const shadowUrl = 'assets/marker-shadow.png';
+  
+  L.Marker.prototype.options.icon = L.icon({
+    iconRetinaUrl,
+    iconUrl,
+    shadowUrl,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41]
+  });
+}
+
+  addTileLayer(type: string): void {
+    let tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    
+    switch(type) {
+      case 'satellite':
+        tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        break;
+      case 'terrain':
+        tileUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+        break;
+    }
+  
+    L.tileLayer(tileUrl, {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(this.map);
+  }
  
 
 initMap(){
-  this.map = L.map('map').setView([41.0082, 28.9784], 13);
+  this.map = L.map('map').setView([39.920561111, 32.853516666], 12);
   this.addTileLayer('streets');
   
   // Mouse hareketi ile koordinatları güncelle
@@ -26,6 +59,9 @@ initMap(){
     this.currentLat = e.latlng.lat;
     this.currentLng = e.latlng.lng;
   });
+
+  const marker = L.marker([39.920561111, 32.853516666]).addTo(this.map);
+    marker.bindPopup("<b>Özgür Amirim!</b><br>Burası Angara.").openPopup();
 }
 
 zoomIn(): void {
@@ -47,22 +83,7 @@ changeMapType(event: any): void {
   this.addTileLayer(mapType);
 }
 
-private addTileLayer(type: string): void {
-  let tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  
-  switch(type) {
-    case 'satellite':
-      tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-      break;
-    case 'terrain':
-      tileUrl = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
-      break;
-  }
 
-  L.tileLayer(tileUrl, {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(this.map);
-}
 
 
 
