@@ -1,0 +1,25 @@
+<div class="map-container">
+    <div class="map-header">
+      <h2>Harita Uygulaması</h2>
+      <div class="map-controls">
+        <button (click)="zoomIn()">Yakınlaştır</button>
+        <button (click)="zoomOut()">Uzaklaştır</button>
+        <select (change)="changeMapType($event)">
+          <option value="streets">Sokak Görünümü</option>
+          <option value="satellite">Uydu Görünümü</option>
+          <option value="terrain">Arazi Görünümü</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="map-wrapper">
+      <div id="map"></div>
+      
+      <div class="map-sidebar">
+        <div class="coordinates-box">
+          <p>Enlem: {{currentLat}}</p>
+          <p>Boylam: {{currentLng}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
