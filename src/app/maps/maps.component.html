@@ -1,25 +1,49 @@
-<div class="map-container">
-    <div class="map-header">
-      <h2>Harita Uygulaması</h2>
-      <div class="map-controls">
-        <button (click)="zoomIn()">Yakınlaştır</button>
-        <button (click)="zoomOut()">Uzaklaştır</button>
-        <select (change)="changeMapType($event)">
-          <option value="streets">Sokak Görünümü</option>
-          <option value="satellite">Uydu Görünümü</option>
-          <option value="terrain">Arazi Görünümü</option>
-        </select>
-      </div>
+<!-- map.component.html -->
+<div class="container-fluid vh-100 p-0">
+  <div class="row h-100 g-0"> <!-- g-0 ile padding'i kaldırıyoruz -->
+    <!-- Harita Bölümü -->
+    <div class="col-lg-8 h-100 position-relative">
+      <div id="map" class="map-container"></div>
     </div>
-    
-    <div class="map-wrapper">
-      <div id="map"></div>
+
+    <!-- Kartlar Bölümü -->
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <!-- <h5 class="card-title mb-0">{{ markers.title }}</h5> -->
+        <span class="badge bg-secondary">Konum</span>
+      </div>
+      <p class="card-text text-muted mb-3">{{ marker.description }}</p>
       
-      <div class="map-sidebar">
-        <div class="coordinates-box">
-          <p>Enlem: {{currentLat}}</p>
-          <p>Boylam: {{currentLng}}</p>
+      <!-- Sıcaklık ve Nem Bilgileri -->
+      <div class="row mb-3">
+        <div class="col-6">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-thermometer-half text-danger me-2"></i>
+            <div>
+              <small class="text-muted d-block">Sıcaklık</small>
+              <strong>{{ marker.temperature }}°C</strong>
+            </div>
+          </div>
         </div>
+        <div class="col-6">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-droplet-half text-primary me-2"></i>
+            <div>
+              <small class="text-muted d-block">Nem</small>
+              <strong>{{ marker.humidity }}%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+     
+      
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary btn-sm" 
+                (click)="showMarkerDetails(marker)">
+          <i class="bi bi-geo-alt me-2"></i>Haritada Göster
+        </button>
       </div>
     </div>
   </div>
+</div>
